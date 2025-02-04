@@ -1,9 +1,9 @@
 "use client"; // ✅ Required for client-side hooks
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation"; // ✅ Use next/navigation
 
-export default function Prediction() {
+function PredictionPage() {
   const searchParams = useSearchParams(); // ✅ Get query params
   const router = useRouter();
   const category = searchParams.get("category") || "default"; // ✅ Extract category safely
@@ -19,7 +19,7 @@ export default function Prediction() {
     const mockResult = {
       text: "Sample tweet analyzed",
       prediction: "Offensive",
-      confidence: "95%",
+      confidence: "85%", // ✅ Add the confidence field here
     };
 
     setTimeout(() => {
@@ -61,5 +61,14 @@ export default function Prediction() {
         </button>
       )}
     </div>
+  );
+}
+
+// ✅ Wrap the component in `<Suspense>` to fix hydration issues
+export default function PredictionWrapper() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <PredictionPage />
+    </Suspense>
   );
 }

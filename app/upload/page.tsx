@@ -1,10 +1,10 @@
 "use client"; // Important for hooks in App Router
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation"; // ✅ Use this instead of useRouter
 
-export default function UploadQuery() {
+function UploadQueryPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || ""; // ✅ Extract 'category' from URL
@@ -54,5 +54,14 @@ export default function UploadQuery() {
         </button>
       </form>
     </div>
+  );
+}
+
+// ✅ Wrap the component in `<Suspense>` to fix hydration issues
+export default function UploadQueryWrapper() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <UploadQueryPage />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { Pie } from "react-chartjs-2";
@@ -8,10 +8,11 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function DataVisualization() {
+// ✅ Data visualization component
+function DataVisualizationPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // const category = searchParams.get("category");
+  const category = searchParams.get("category") || "default"; // safely extract category
 
   const data = {
     labels: ["Offensive Content", "Non-Offensive Content"],
@@ -37,5 +38,14 @@ export default function DataVisualization() {
         Back to Home
       </button>
     </div>
+  );
+}
+
+// ✅ Wrap the component in `<Suspense>` to fix hydration issues
+export default function DataVisualizationWrapper() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <DataVisualizationPage />
+    </Suspense>
   );
 }

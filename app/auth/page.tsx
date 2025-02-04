@@ -1,9 +1,9 @@
 "use client"; // ✅ Required for hooks in Client Components
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation"; // ✅ Use correct hooks
 
-export default function Auth() {
+function AuthPage() {
   const router = useRouter();
   const searchParams = useSearchParams(); // ✅ Get search params inside the component
   const category = searchParams.get("category") || ""; // ✅ Extract category safely
@@ -48,5 +48,14 @@ export default function Auth() {
         </button>
       </form>
     </div>
+  );
+}
+
+// ✅ Wrap `AuthPage` inside `<Suspense>` to fix the Next.js build error
+export default function AuthWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthPage />
+    </Suspense>
   );
 }

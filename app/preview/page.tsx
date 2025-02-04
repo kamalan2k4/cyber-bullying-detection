@@ -1,9 +1,9 @@
 "use client"; // ✅ Required in App Router when using hooks
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation"; // ✅ Use `next/navigation`
 
-export default function Preview() {
+function PreviewPage() {
   const searchParams = useSearchParams(); // ✅ Get query params
   const router = useRouter();
   const category = searchParams.get("category") || "default"; // ✅ Extract category safely
@@ -54,5 +54,14 @@ export default function Preview() {
         Proceed to Prediction
       </button>
     </div>
+  );
+}
+
+// ✅ Wrap the component in `<Suspense>` to fix hydration issues
+export default function PreviewWrapper() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <PreviewPage />
+    </Suspense>
   );
 }

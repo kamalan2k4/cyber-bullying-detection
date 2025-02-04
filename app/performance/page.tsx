@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function PerformanceAnalysis() {
+function PerformanceAnalysisPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const category = searchParams.get("category");
+  const category = searchParams.get("category") || ""; // ✅ Prevents null errors
 
   const performanceData = {
     accuracy: "96%",
@@ -44,5 +43,14 @@ export default function PerformanceAnalysis() {
         Proceed to Data Visualization
       </button>
     </div>
+  );
+}
+
+// ✅ Wrap the component in `<Suspense>` to fix the issue
+export default function PerformanceAnalysisWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PerformanceAnalysisPage />
+    </Suspense>
   );
 }
