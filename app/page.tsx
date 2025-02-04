@@ -1,14 +1,13 @@
-"use client"
+"use client";
 
 import React from "react";
-// import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
-  
-  const handleSelection = (type) => {
+
+  // Define type explicitly
+  const handleSelection = (type: string) => {
     router.push(`/auth?category=${type}`);
   };
 
