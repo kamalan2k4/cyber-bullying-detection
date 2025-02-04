@@ -11,7 +11,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default function DataVisualization() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const category = searchParams.get("category");
+  // const category = searchParams.get("category");
 
   const data = {
     labels: ["Offensive Content", "Non-Offensive Content"],
