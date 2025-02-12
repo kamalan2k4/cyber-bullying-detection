@@ -7,7 +7,15 @@ import 'chart.js/auto';
 
 export default function AnalysisPage() {
   const router = useRouter();
-  const [analysis, setAnalysis] = useState(null);
+  // const [analysis, setAnalysis] = useState(null);
+  type AnalysisType = {
+    label: string;
+    offensiveness: number;
+    message: string;
+  };
+  
+  const [analysis, setAnalysis] = useState<AnalysisType | null>(null);
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +31,11 @@ export default function AnalysisPage() {
     datasets: [
       {
         label: 'Analysis Breakdown',
-        data: analysis ? [analysis.offensiveness * 100, (1 - analysis.offensiveness) * 100] : [50, 50],
+        // data: analysis ? [analysis.offensiveness * 100, (1 - analysis.offensiveness) * 100] : [50, 50],
+        data: analysis
+  ? [analysis.offensiveness * 100, (1 - analysis.offensiveness) * 100]
+  : [50, 50],
+
         backgroundColor: ['#ff4d4d', '#4CAF50'],
         hoverOffset: 4,
       },

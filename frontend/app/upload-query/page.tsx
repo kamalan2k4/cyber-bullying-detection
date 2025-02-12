@@ -7,19 +7,24 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 export default function UploadQuery() {
   const router = useRouter();
   const [text, setText] = useState('');
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
+
   const [error, setError] = useState('');
 
-  const handleFileUpload = (e) => {
-    const uploadedFile = e.target.files[0];
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadedFile = e.target.files?.[0];  // Use optional chaining to prevent errors
+  
     if (uploadedFile && uploadedFile.type === 'text/csv') {
       setFile(uploadedFile);
       setError('');
       
       const reader = new FileReader();
       reader.onload = (event) => {
-        sessionStorage.setItem('uploadedData', JSON.stringify(event.target.result));
+        const result = (event.target as FileReader).result; // Ensure TypeScript knows it's a FileReader
+        sessionStorage.setItem('uploadedData', JSON.stringify(result));
       };
+      
       reader.readAsText(uploadedFile);
     } else {
       setError('Only CSV files are allowed.');

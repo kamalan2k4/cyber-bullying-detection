@@ -5,7 +5,15 @@ import { useRouter } from 'next/navigation';
 
 export default function PredictionResult() {
   const router = useRouter();
-  const [prediction, setPrediction] = useState(null);
+  // const [prediction, setPrediction] = useState(null);
+  type PredictionType = {
+    label: string;
+    offensiveness: number;
+    message: string;
+  };
+  
+  const [prediction, setPrediction] = useState<PredictionType | null>(null);
+  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,9 +34,14 @@ export default function PredictionResult() {
           <p className="text-xl text-gray-400 animate-pulse">Processing...</p>
         ) : prediction ? (
           <div className="overflow-y-auto max-h-80 border border-gray-700 rounded-lg p-4 bg-gray-800">
-            <h2 className="text-3xl font-bold mb-4">{prediction.label}</h2>
-            <p className="text-lg mb-4">Offensiveness Score: <span className="font-bold text-yellow-400">{(prediction.offensiveness * 100).toFixed(2)}%</span></p>
-            <p className="text-md text-gray-300">{prediction.message}</p>
+            <h2 className="text-3xl font-bold mb-4">{prediction?.label}</h2>
+<p className="text-lg mb-4">
+  Offensiveness Score: <span className="font-bold text-yellow-400">
+    {(prediction?.offensiveness ?? 0) * 100}%
+  </span>
+</p>
+<p className="text-md text-gray-300">{prediction?.message}</p>
+
           </div>
         ) : (
           <p className="text-xl text-red-400">No prediction available. Please try again.</p>
