@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+// import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function AuthForm() {
   const router = useRouter();
@@ -83,7 +83,7 @@ const validatePassword = (password: string): boolean => password.length >= 6;
             className="absolute inset-y-0 right-4 flex items-center text-gray-700 hover:text-gray-900"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
+            {/* {showPassword ? <FaEyeSlash /> : <FaEye />} */}
           </button>
         </div>
         
